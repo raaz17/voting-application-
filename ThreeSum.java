@@ -1,58 +1,40 @@
-package leetcode;
+package leetcode.medium;
 
 import java.util.*;
 
-/**
- * Created by nikoo28 on 7/9/19 1:18 AM
- */
+public class ThreeSum {
 
-class ThreeSum {
+  List<List<Integer>> threeSum(int[] arr) {
 
-  public List<List<Integer>> threeSum(int[] nums) {
+    if (arr == null || arr.length < 3) return new ArrayList<>();
 
-    Arrays.sort(nums);
+    // Sort the elements
+    Arrays.sort(arr);
+    Set<List<Integer>> result = new HashSet<>();
 
-    Set<List<Integer>> solution = new HashSet<>();
+    // Now fix the first element and find the other two elements
+    for (int i = 0; i < arr.length - 2; i++)
+    {
+      // Find other two elements using Two Sum approach
+      int left = i + 1;
+      int right = arr.length - 1;
 
-    for (int i = 0; i < nums.length; i++) {
+      while (left < right) {
+        int sum = arr[i] + arr[left] + arr[right];
 
-      findSum(nums, 0 - nums[i], i, solution);
+        if (sum == 0) {
+
+          // Add the set, and move to find other triplets
+          result.add(Arrays.asList(arr[i], arr[left], arr[right]));
+          left++;
+          right--;
+        } else if (sum < 0)
+          left++;
+        else
+          right--;
+      }
     }
-
-    return new ArrayList<>(solution);
+    return new ArrayList<>(result);
   }
 
-  private void findSum(int[] arr, int sum, int ignore, Set<List<Integer>> solution) {
-
-    int i = 0;
-    int end = arr.length - 1;
-
-    while (i < end) {
-      if (i == ignore) {
-        i++;
-        continue;
-      }
-
-      if (end == ignore) {
-        end--;
-        continue;
-      }
-
-      if (arr[i] + arr[end] == sum) {
-        List<Integer> set = new ArrayList<>();
-        set.add(arr[ignore]);
-        set.add(arr[i]);
-        set.add(arr[end]);
-        Collections.sort(set);
-        solution.add(set);
-      }
-
-      if (arr[i] + arr[end] > sum) {
-        end--;
-        continue;
-      }
-
-      i++;
-    }
-  }
 }
