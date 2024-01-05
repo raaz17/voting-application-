@@ -1,48 +1,25 @@
-package leetcode;
+package leetcode.easy;
 
 /**
- * @author nikoo28 on 12/1/17
+ * Created by nikoo28 on 2019-09-14 17:34
  */
+
 class StringCompression {
 
-  private static int compress(char[] chars) {
-
-    if (chars.length == 1)
-      return 1;
-
-    char prevChar = chars[0];
-    int currentCharCount = 1;
-
-    int result = 0;
-
-    for (int i = 1; i < chars.length; i++) {
-
-      char newChar = chars[i];
-      if (newChar == prevChar) {
-        currentCharCount++;
-        continue;
+  public int compress(char[] chars) {
+    int anchor = 0, write = 0;
+    for (int read = 0; read < chars.length; read++) {
+      if (read + 1 == chars.length || chars[read + 1] != chars[read]) {
+        chars[write++] = chars[anchor];
+        if (read > anchor) {
+          for (char c : ("" + (read - anchor + 1)).toCharArray()) {
+            chars[write++] = c;
+          }
+        }
+        anchor = read + 1;
       }
-
-      if (currentCharCount > 1) {
-        result += 1 + (int) (Math.log10(currentCharCount) + 1);
-      } else
-        result += 1;
-
-      prevChar = newChar;
-      currentCharCount = 1;
     }
-
-    if (currentCharCount > 1) {
-      result += 1 + (int) (Math.log10(currentCharCount) + 1);
-    } else
-      result += 1;
-
-    return result;
-  }
-
-  public static void main(String[] args) {
-    char[] chars = {'a'};
-    System.out.println(compress(chars));
+    return write;
   }
 
 }

@@ -1,24 +1,24 @@
-package leetcode;
+package leetcode.easy;
 
 import java.util.HashSet;
+import java.util.Set;
 
-/**
- * Created by nikoo28 on 7/16/19 2:27 AM
- */
+public class JewelsAndStones {
 
-class JewelsAndStones {
+  int numJewelsInStones(String jewels, String stones) {
 
-  public int numJewelsInStones(String J, String S) {
+    // Create a set for all different jewels
+    Set<Character> jewelSet = new HashSet<>();
+    for (int i = 0; i < jewels.length(); i++)
+      jewelSet.add(jewels.charAt(i));
 
-    HashSet<Character> Jset = new HashSet<>();
-    for (char j : J.toCharArray())
-      Jset.add(j);
+    // Find total score/value
+    int score = 0;
+    for (int i = 0; i < stones.length(); i++)
+      if (jewelSet.contains(stones.charAt(i)))
+        score++;
 
-    int ans = 0;
-    for (char s : S.toCharArray())
-      if (Jset.contains(s))
-        ans++;
-    return ans;
+    return score;
   }
 
 }
